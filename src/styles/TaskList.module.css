@@ -1,0 +1,81 @@
+/* TaskList.module.css */
+.taskListContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+.taskSection {
+  margin: 20px;
+  padding: 20px;
+  background: linear-gradient(to right, #ff8a65, #ff3d00);
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+
+.taskSection:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(to right, #ffab91, #ff7043);
+}
+
+.taskUl {
+  list-style: none;
+  padding: 0;
+}
+
+.taskLi {
+  margin-bottom: 10px;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+  transition: box-shadow 0.3s ease-in-out;
+  flex-wrap: wrap;
+}
+
+.taskLi:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.taskInfoContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.taskInfoLabel {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.taskInfoValue {
+  color: #555;
+}
+
+.taskButtonContainer {
+  display: flex;
+  gap:10px;
+  width: 100%;
+  justify-content: center;
+  /* flex-direction: column; */
+}
+
+.taskButton {
+  padding: 8px 12px;
+  margin-top: 8px;
+  cursor: pointer;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.taskButton:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+}

@@ -1,10 +1,20 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const taskSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  hour: { type: String, required: true },
-});
+let Task;
 
-const Task = mongoose.model('Task', taskSchema);
+try {
+  // Try to retrieve the existing model
+  Task = mongoose.model("Task");
+} catch (error) {
+  // Model doesn't exist, define it
+  const taskSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    hour: { type: String, required: true },
+    date: { type: String, required: true },
+    pass: { type: String, required: true },
+  });
+
+  Task = mongoose.model("Task", taskSchema);
+}
 
 export default Task;
