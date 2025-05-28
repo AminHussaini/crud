@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../styles/TaskEditForm.module.css'; // Adjust the path based on your project structure
 
-const TaskEditForm = ({ onSubmit, initialData, onCancel }) => {
+const TaskEditForm = ({ onSubmit, initialData, onCancel,isId06 }) => {
   const [name, setName] = useState(initialData ? initialData.name : '');
   const [hour, setHour] = useState(initialData ? initialData.hour : '');
   const [date, setDate] = useState(initialData ? initialData.date : '');
@@ -61,8 +61,10 @@ const TaskEditForm = ({ onSubmit, initialData, onCancel }) => {
       </div>
       <div className={styles.buttonGroup}>
         {/* Use the new local class for the button */}
+        {isId06 && <>
         <button className={styles.button} type="submit">{initialData ? 'Update' : 'Create'}</button>
         {initialData && <button type="button" className={styles.button} onClick={onCancel}>Cancel</button>}
+        </>}
       </div>
     </form>
   );

@@ -2,7 +2,7 @@
 import React from "react";
 import styles from "../styles/TaskList.module.css"; // Import your CSS module
 
-const TaskList = ({ tasks, onDelete, onEdit }) => {
+const TaskList = ({ tasks, onDelete, onEdit,isId06 }) => {
   const frondTasks = tasks.filter((task) => task.name === "front");
   const backTasks = tasks.filter((task) => task.name === "back");
 
@@ -52,18 +52,20 @@ const TaskList = ({ tasks, onDelete, onEdit }) => {
                 </div>
               )}
               <div className={styles.taskButtonContainer}>
-                <button
-                  className={styles.taskButton}
-                  onClick={() => onDelete(task._id)}
-                >
-                  Delete
-                </button>
-                <button
-                  className={styles.taskButton}
-                  onClick={() => onEdit(task)}
-                >
-                  Edit
-                </button>
+                {isId06 && <>
+                  <button
+                    className={styles.taskButton}
+                    onClick={() => onDelete(task._id)}
+                  >
+                    Delete
+                  </button>
+                  <button
+                    className={styles.taskButton}
+                    onClick={() => onEdit(task)}
+                  >
+                    Edit
+                  </button>
+                  </>}
               </div>
             </li>
           ))}

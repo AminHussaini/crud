@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import TaskEditForm from '../components/TaskEditForm';
 import TaskList from '../components/TaskList';
 
-const Home = () => {
+const Home = ({ isId06 }) => {
+  console.log({isId06})
   const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
 
@@ -54,6 +55,7 @@ const Home = () => {
     }
   };
 
+
   const handleDelete = async (taskId) => {
     const res = await fetch(`/api/tasks/delete/${taskId}`, {
       method: 'DELETE',
@@ -72,16 +74,29 @@ const Home = () => {
       <br />
       {selectedTask ? (
         <TaskEditForm
+          isId06={isId06}
           onSubmit={handleUpdate}
           initialData={selectedTask}
           onCancel={() => setSelectedTask(null)}
         />
       ) : (
-        <TaskEditForm onSubmit={handleCreate} />
+        <TaskEditForm isId06={isId06} onSubmit={handleCreate} />
       )}
-      <TaskList tasks={tasks} onDelete={handleDelete} onEdit={(task) => setSelectedTask(task)} />
+      <TaskList tasks={tasks} onDelete={handleDelete} isId06={isId06}  onEdit={(task) => setSelectedTask(task)} />
     </div>
   );
 };
 
 export default Home;
+
+export async function getServerSideProps(context) {
+  const { id } = context.query;
+
+  const isId06 = id === '06';
+
+  return {
+    props: {
+      isId06,
+    },
+  };
+}
