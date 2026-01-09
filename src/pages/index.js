@@ -4,7 +4,6 @@ import TaskEditForm from '../components/TaskEditForm';
 import TaskList from '../components/TaskList';
 
 const Home = ({ isId06 }) => {
-  console.log({isId06})
   const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
 
