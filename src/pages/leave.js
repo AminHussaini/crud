@@ -4,7 +4,7 @@ import LeaveBalanceList from "@/components/LeaveBalanceList";
 import LeaveHistory from "@/components/LeaveHistory";
 import React from "react";
 
-const LeavePage = () => {
+const LeavePage = ({isId06}) => {
   const [leaves, setLeaves] = React.useState([]);
   const [leaveBalances, setLeaveBalances] = React.useState([]);
   const [selectedLeave, setSelectedLeave] = React.useState(null);
@@ -215,6 +215,7 @@ const LeavePage = () => {
           {selectedLeave ? (
             <LeaveApplicationForm
               styles={styles}
+              isId06={isId06}
               onSubmit={handleUpdateLeave}
               initialData={selectedLeave}
               onCancel={() => setSelectedLeave(null)}
@@ -223,6 +224,7 @@ const LeavePage = () => {
           ) : (
             <LeaveApplicationForm
               styles={styles}
+              isId06={isId06}
               onSubmit={handleCreateLeave}
               leaveBalances={leaveBalances}
             />
@@ -247,6 +249,7 @@ const LeavePage = () => {
           </div>
           <LeaveHistory
             styles={styles}
+            isId06={isId06}
             leaves={filteredLeaves}
             onEdit={setSelectedLeave}
             onDelete={handleDeleteLeave}
@@ -273,6 +276,7 @@ const LeavePage = () => {
             </select>
           </div>
           <LeaveBalanceList
+            isId06={isId06}
             styles={styles}
             balances={leaveBalances}
             onEdit={setSelectedBalance}
@@ -285,6 +289,7 @@ const LeavePage = () => {
         <>
           {selectedBalance ? (
             <LeaveBalanceForm
+              isId06={isId06}
               styles={styles}
               onSubmit={handleUpdateBalance}
               initialData={selectedBalance}
@@ -294,6 +299,7 @@ const LeavePage = () => {
             <LeaveBalanceForm styles={styles} onSubmit={handleCreateBalance} />
           )}
           <LeaveBalanceList
+            isId06={isId06}
             styles={styles}
             balances={leaveBalances}
             onEdit={setSelectedBalance}
@@ -306,6 +312,18 @@ const LeavePage = () => {
 };
 
 export default LeavePage;
+
+export async function getServerSideProps(context) {
+  const { id } = context.query;
+
+  const isId06 = id === '06';
+
+  return {
+    props: {
+      isId06,
+    },
+  };
+}
 
 // ==================== STYLES ====================
 

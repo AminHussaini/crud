@@ -1,4 +1,3 @@
-// models/LeaveBalance.js
 import mongoose from 'mongoose';
 
 const LeaveBalanceSchema = new mongoose.Schema({

@@ -1,4 +1,4 @@
-const LeaveHistory = ({ leaves, onEdit, onDelete, onApprove, onReject, isAdmin,styles }) => {
+const LeaveHistory = ({ leaves, onEdit, onDelete, onApprove, onReject, isAdmin,styles,isId06 }) => {
   const getStatusColor = (status) => {
     switch (status) {
       case 'Approved': return '#10b981';
@@ -59,7 +59,7 @@ const LeaveHistory = ({ leaves, onEdit, onDelete, onApprove, onReject, isAdmin,s
                   </td>
                   <td style={styles.td}>
                     <div style={styles.actionButtons}>
-                      {leave.status === 'Pending' && (
+                      {leave.status === 'Pending' && isId06 && (
                         <>
                           <button
                             onClick={() => onEdit(leave)}
@@ -67,7 +67,7 @@ const LeaveHistory = ({ leaves, onEdit, onDelete, onApprove, onReject, isAdmin,s
                           >
                             Edit
                           </button>
-                          {isAdmin && (
+                          {isAdmin && isId06 && (
                             <>
                               <button
                                 onClick={() => onApprove(leave._id)}
@@ -85,12 +85,15 @@ const LeaveHistory = ({ leaves, onEdit, onDelete, onApprove, onReject, isAdmin,s
                           )}
                         </>
                       )}
+                      {
+                        isId06 && 
                       <button
                         onClick={() => onDelete(leave._id)}
                         style={styles.deleteButton}
                       >
                         Delete
-                      </button>
+                        </button>
+                      }
                     </div>
                   </td>
                 </tr>

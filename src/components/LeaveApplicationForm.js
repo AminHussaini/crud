@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const LeaveApplicationForm = ({ onSubmit, initialData, onCancel,styles }) => {
+const LeaveApplicationForm = ({ onSubmit, initialData, onCancel, styles, isId06 }) => {
   const [formData, setFormData] = useState(initialData || {
     employeeName: '',
     employeeId: '',
@@ -129,17 +129,17 @@ const LeaveApplicationForm = ({ onSubmit, initialData, onCancel,styles }) => {
             required
           />
         </div>
-
-        <div style={styles.buttonGroup}>
-          <button type="submit" style={styles.submitButton}>
-            {initialData ? 'Update Leave' : 'Submit Application'}
-          </button>
-          {onCancel && (
-            <button type="button" onClick={onCancel} style={styles.cancelButton}>
-              Cancel
+        {isId06 && <>
+          <div style={styles.buttonGroup}>
+            <button type="submit" style={styles.submitButton}>
+              {initialData ? 'Update Leave' : 'Submit Application'}
             </button>
-          )}
-        </div>
+            {onCancel && (
+              <button type="button" onClick={onCancel} style={styles.cancelButton}>
+                Cancel
+              </button>
+            )}
+          </div></>}
       </form>
     </div>
   );

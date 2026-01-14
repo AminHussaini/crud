@@ -1,4 +1,4 @@
-const LeaveBalanceList = ({ balances, onEdit, onDelete,styles }) => {
+const LeaveBalanceList = ({ balances, onEdit, onDelete,styles,isId06 }) => {
   const getProgressPercentage = (used, total) => {
     if (total === 0) return 0;
     return (used / total) * 100;
@@ -26,6 +26,8 @@ const LeaveBalanceList = ({ balances, onEdit, onDelete,styles }) => {
                   <p style={styles.yearBadge}>Year: {balance.year}</p>
                 </div>
                 <div style={styles.cardActions}>
+                  {isId06 &&
+                  <>
                   <button
                     onClick={() => onEdit(balance)}
                     style={styles.editButton}
@@ -38,6 +40,8 @@ const LeaveBalanceList = ({ balances, onEdit, onDelete,styles }) => {
                   >
                     Delete
                   </button>
+                  </>
+                  }
                 </div>
               </div>
               
