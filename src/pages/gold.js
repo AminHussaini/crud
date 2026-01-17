@@ -5,7 +5,7 @@ export default function GoldRateCalculator() {
   const [activeTab, setActiveTab] = useState('buying');
   const [liveRate, setLiveRate] = useState(0);
   const [manualRate, setManualRate] = useState('');
-  const [useLiveRate, setUseLiveRate] = useState(true);
+  const [useLiveRate, setUseLiveRate] = useState(false);
   const [wastage, setWastage] = useState('10');
   const [makingType, setMakingType] = useState('percentage');
   const [makingValue, setMakingValue] = useState('8');
@@ -67,9 +67,9 @@ export default function GoldRateCalculator() {
     setLoading(false);
   };
 
-  useEffect(() => {
-    fetchLiveRate();
-  }, []);
+  // useEffect(() => {
+  //   fetchLiveRate();
+  // }, []);
 
   const carats = [
     { karat: 24, purity: 1.0 },
