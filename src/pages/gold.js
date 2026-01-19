@@ -24,39 +24,58 @@ export default function GoldRateCalculator() {
 
       async function fetchGoldRate() {
         try {
-          const apiKey = "fb6501afd002c8a30841d7961f9b7491"; // replace with your MetalpriceAPI key
-          const url = `https://api.metalpriceapi.com/v1/latest?base=XAU&currencies=PKR&api_key=${apiKey}`;
+          // const apiKey = "fb6501afd002c8a30841d7961f9b7491"; // replace with your MetalpriceAPI key
+          // const url = `https://api.metalpriceapi.com/v1/latest?base=XAU&currencies=PKR&api_key=${apiKey}`;
 
-          const response = await fetch(url);
-          const data = await response.json();
+          // const response = await fetch(url);
+          // const data = await response.json();
 
-          if (!data.success) {
-            // handle API error
-            console.error("API error:", data);
-            return;
-          }
+          // if (!data.success) {
+          //   // handle API error
+          //   console.error("API error:", data);
+          //   return;
+          // }
 
-          // API returns PKR value per troy ounce
-          const pkrPerOunce = data.rates.PKR;
+          // // API returns PKR value per troy ounce
+          // const pkrPerOunce = data.rates.PKR;
 
-          // convert troy ounce to grams (1 troy oz = 31.1035 g)
-          const pkrPerGram = pkrPerOunce / 31.1035;
+          // // convert troy ounce to grams (1 troy oz = 31.1035 g)
+          // const pkrPerGram = pkrPerOunce / 31.1035;
 
-          // round if you want
-          const liveRate = Math.round(pkrPerGram);
+          // // round if you want
+          // const liveRate = Math.round(pkrPerGram);
 
-          console.log("Gold price (PKR per gram):", liveRate);
-          return liveRate;
+          // console.log("Gold price (PKR per gram):", liveRate);
+          // return liveRate;
+
+          const res = await fetch(
+            "https://api.allorigins.win/raw?url=https://hamariweb.com/finance/gold_rate/"
+          );
+
+          const html = await res.text();
+
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, "text/html");
+
+          // 24K - 1 Gram (index 2)
+          const priceText = doc.querySelectorAll(".gold_box .price")[1]?.innerText;
+
+          if (!priceText) return 0;
+
+          const price = parseInt(priceText.replace(/\D/g, ""), 10);
+          return price / 10;
 
         } catch (error) {
           console.error("Error fetching gold rate:", error);
         }
       }
 
+
+
       // Example usage
-      
-     const ratePerGram = (await fetchGoldRate() ?? 0);
-      
+
+      const ratePerGram = (await fetchGoldRate() ?? 0);
+
       // Optional: round value
       setLiveRate(Math.round(ratePerGram));
     } catch (error) {
