@@ -87,7 +87,7 @@ const LeaveBalanceForm = ({ onSubmit, initialData, onCancel, styles, isId06 }) =
         {initialData ? 'Edit Leave Balance' : 'Add Yearly Leave Balance'}
       </h2>
       <form onSubmit={handleSubmit} style={styles.form}>
-        <div style={styles.row}>
+        <div className="leave-form-row" style={styles.row}>
           <div style={styles.field}>
             <label style={styles.label}>Employee Name *</label>
             <input

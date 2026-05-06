@@ -58,7 +58,7 @@ const LeaveHistory = ({ leaves, onEdit, onDelete, onApprove, onReject, isAdmin,s
                     </span>
                   </td>
                   <td style={styles.td}>
-                    <div style={styles.actionButtons}>
+                    <div className="leave-action-btns" style={styles.actionButtons}>
                       {leave.status === 'Pending' && isId06 && (
                         <>
                           <button

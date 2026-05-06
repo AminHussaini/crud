@@ -16,7 +16,7 @@ const LeaveBalanceList = ({ balances, onEdit, onDelete,styles,isId06 }) => {
       {balances.length === 0 ? (
         <p style={styles.noData}>No leave balances found.</p>
       ) : (
-        <div style={styles.balanceGrid}>
+        <div className="leave-balance-grid" style={styles.balanceGrid}>
           {balances.map((balance) => (
             <div key={balance._id} style={styles.balanceCard}>
               <div style={styles.balanceCardHeader}>

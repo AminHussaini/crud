@@ -39,7 +39,7 @@ const LeaveApplicationForm = ({ onSubmit, initialData, onCancel, styles, isId06 
     <div style={styles.formContainer}>
       <h2 style={styles.heading}>{initialData ? 'Edit Leave Application' : 'Apply for Leave'}</h2>
       <form onSubmit={handleSubmit} style={styles.form}>
-        <div style={styles.row}>
+        <div className="leave-form-row" style={styles.row}>
           <div style={styles.field}>
             <label style={styles.label}>Employee Name *</label>
             <input
@@ -64,7 +64,7 @@ const LeaveApplicationForm = ({ onSubmit, initialData, onCancel, styles, isId06 
           </div>
         </div>
 
-        <div style={styles.row}>
+        <div className="leave-form-row" style={styles.row}>
           <div style={styles.field}>
             <label style={styles.label}>Leave Type *</label>
             <select
@@ -93,7 +93,7 @@ const LeaveApplicationForm = ({ onSubmit, initialData, onCancel, styles, isId06 
           </div>
         </div>
 
-        <div style={styles.row}>
+        <div className="leave-form-row" style={styles.row}>
           <div style={styles.field}>
             <label style={styles.label}>Start Date *</label>
             <input

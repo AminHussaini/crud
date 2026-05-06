@@ -406,24 +406,39 @@ export default function GoldRateCalculator() {
                 ? calculateBuyingPrice(carat.purity)
                 : calculateSellingPrice(carat.purity);
 
+              const isSelected = parseInt(selectedCarat) === carat.karat;
               return (
                 <div
                   key={carat.karat}
-                  className={`border-2 rounded-lg p-4 hover:border-opacity-100 transition-colors ${activeTab === 'buying'
-                    ? 'border-green-200 hover:border-green-400'
-                    : 'border-blue-200 hover:border-blue-400'
-                    }`}
+                  onClick={() => setSelectedCarat(String(carat.karat))}
+                  className={`border-2 rounded-lg p-4 transition-all cursor-pointer ${
+                    isSelected
+                      ? activeTab === 'buying'
+                        ? 'border-green-500 bg-green-50 shadow-lg ring-2 ring-green-400 ring-offset-1'
+                        : 'border-blue-500 bg-blue-50 shadow-lg ring-2 ring-blue-400 ring-offset-1'
+                      : activeTab === 'buying'
+                        ? 'border-green-200 hover:border-green-400 hover:shadow-md'
+                        : 'border-blue-200 hover:border-blue-400 hover:shadow-md'
+                  }`}
                 >
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-lg font-semibold text-gray-700">
+                    <span className={`text-lg font-semibold ${isSelected ? 'text-gray-900' : 'text-gray-700'}`}>
                       {carat.karat}K Gold
+                      {isSelected && (
+                        <span className={`ml-2 text-xs font-bold px-2 py-0.5 rounded-full ${
+                          activeTab === 'buying' ? 'bg-green-500 text-white' : 'bg-blue-500 text-white'
+                        }`}>Selected</span>
+                      )}
                     </span>
                     <span className="text-sm text-gray-500">
                       {(carat.purity * 100).toFixed(1)}%
                     </span>
                   </div>
-                  <div className={`text-2xl font-bold ${activeTab === 'buying' ? 'text-green-700' : 'text-blue-700'
-                    }`}>
+                  <div className={`text-2xl font-bold ${
+                    isSelected
+                      ? activeTab === 'buying' ? 'text-green-800' : 'text-blue-800'
+                      : activeTab === 'buying' ? 'text-green-700' : 'text-blue-700'
+                  }`}>
                     Rs. {price.toLocaleString('en-PK', {
                       minimumFractionDigits: 0,
                       maximumFractionDigits: 0
