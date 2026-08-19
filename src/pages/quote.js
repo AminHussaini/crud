@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import Head from 'next/head';
 import Script from 'next/script';
 
@@ -6,6 +6,49 @@ const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || '';
 const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || '';
 const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || '';
 const VERIFY_EMAIL = process.env.NEXT_PUBLIC_VERIFY_EMAIL || '';
+
+const VERIFY_TTL_MS = 10 * 60 * 1000;
+const VERIFY_STORAGE_KEY = 'quoteVerifiedAt';
+
+function getVerifiedAt() {
+  try {
+    const ts = Number(window.localStorage.getItem(VERIFY_STORAGE_KEY));
+    return ts || null;
+  } catch {
+    return null;
+  }
+}
+
+function isVerifiedRecently() {
+  const ts = getVerifiedAt();
+  return Boolean(ts) && Date.now() - ts < VERIFY_TTL_MS;
+}
+
+function markVerified() {
+  try {
+    window.localStorage.setItem(VERIFY_STORAGE_KEY, String(Date.now()));
+  } catch {
+    // localStorage unavailable — verification just won't persist across reloads
+  }
+}
+
+function clearVerification() {
+  try {
+    window.localStorage.removeItem(VERIFY_STORAGE_KEY);
+  } catch {
+    // localStorage unavailable — nothing to clear
+  }
+}
+
+function unlockPage() {
+  document.getElementById('authGate').style.display = 'none';
+  document.getElementById('pageWrap').style.display = 'flex';
+}
+
+function lockPage() {
+  document.getElementById('pageWrap').style.display = 'none';
+  document.getElementById('authGate').style.display = 'flex';
+}
 
 function parseMoney(str) {
   return parseFloat(String(str).replace(/[^0-9.-]/g, '')) || 0;
@@ -86,6 +129,23 @@ function downloadPDF() {
 
 export default function QuotePage() {
   const currentCodeRef = useRef(null);
+  const lockTimerRef = useRef(null);
+
+  const clearScheduledLock = () => {
+    if (lockTimerRef.current) {
+      clearTimeout(lockTimerRef.current);
+      lockTimerRef.current = null;
+    }
+  };
+
+  const scheduleAutoLock = (delayMs) => {
+    clearScheduledLock();
+    lockTimerRef.current = setTimeout(() => {
+      clearVerification();
+      lockPage();
+      sendVerificationCode();
+    }, Math.max(delayMs, 0));
+  };
 
   const generateCode = () => String(Math.floor(100000 + Math.random() * 900000));
 
@@ -133,17 +193,28 @@ export default function QuotePage() {
       return;
     }
     if (input === currentCodeRef.current) {
-      document.getElementById('authGate').style.display = 'none';
-      document.getElementById('pageWrap').style.display = 'flex';
+      markVerified();
+      unlockPage();
+      scheduleAutoLock(VERIFY_TTL_MS);
     } else {
       msg.textContent = 'Incorrect code, please try again.';
       msg.className = 'auth-msg err';
     }
   };
 
+  useEffect(() => {
+    const ts = getVerifiedAt();
+    if (ts && Date.now() - ts < VERIFY_TTL_MS) {
+      unlockPage();
+      scheduleAutoLock(VERIFY_TTL_MS - (Date.now() - ts));
+    }
+    return clearScheduledLock;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleEmailJsReady = () => {
     if (EMAILJS_PUBLIC_KEY && window.emailjs) window.emailjs.init(EMAILJS_PUBLIC_KEY);
-    sendVerificationCode();
+    if (!isVerifiedRecently()) sendVerificationCode();
   };
 
   return (
