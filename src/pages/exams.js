@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 
+
 const EXAMS = [
   { code: 'MGT-3003', course: 'Introduction to Management', date: '2026-10-16' },
   { code: 'MATH-3001', course: 'Pre-Calculus I', date: '2026-10-19' },
